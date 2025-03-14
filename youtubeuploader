@@ -1,0 +1,99 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "C01_youtube_upload.ipynb",
+      "provenance": [],
+      "collapsed_sections": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "hlI3bbxyBDq_",
+        "cellView": "form"
+      },
+      "source": [
+        "#@markdown <h2><b>01. Mount Google Drive</b></h2>\n",
+        "from google.colab import drive\n",
+        "drive.mount('/content/drive')"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ottnN_Bw91wn",
+        "cellView": "both"
+      },
+      "source": [
+        "#@markdown <h2><b>02. Clone Youtube Uploader Repository</b></h2>\n",
+        "!git clone https://github.com/agent87/youtube_uploader.git || echo 'Repo already cloned'"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "oqqln-YS9613",
+        "cellView": "form"
+      },
+      "source": [
+        "#@markdown <h2><b>03. Setup Youtube Uploader</b></h2>\n",
+        "!cd youtube_uploader && python setup.py install"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "k8WM7x0aBsQR",
+        "cellView": "form"
+      },
+      "source": [
+        "#@markdown <h2><b>04. Upload File \"credentials.json\"</b></h2>\n",
+        "#@markdown <p>Follow these links to get API credentials:</p>\n",
+        "#@markdown <p><a href='https://developers.google.com/drive/api/v3/quickstart/python'>Google Drive API</a></p>\n",
+        "#@markdown <p><a href='https://console.developers.google.com/apis/library?supportedpurview=project&q=youtube'>Enable YouTube API</a></p>\n",
+        "from google.colab import files\n",
+        "uploaded = files.upload()\n",
+        "\n",
+        "# Kiểm tra xem tệp credentials.json có được tải lên không\n",
+        "import os\n",
+        "if 'credentials.json' not in uploaded:\n",
+        "    print('⚠️ Vui lòng tải lên tệp credentials.json!')"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "oFaK1iS199JY",
+        "cellView": "form"
+      },
+      "source": [
+        "#@markdown <h2><b>05. Run Youtube Uploader</b></h2>\n",
+        "CREDENTIALS_PATH = '/content/credentials.json'\n",
+        "\n",
+        "# Kiểm tra nếu file credentials.json tồn tại trước khi chạy\n",
+        "import os\n",
+        "if os.path.exists(CREDENTIALS_PATH):\n",
+        "    !python youtube_uploader/upload.py --credentials {CREDENTIALS_PATH}\n",
+        "else:\n",
+        "    print('⚠️ Không tìm thấy credentials.json, vui lòng tải lên trước!')"
+      ],
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
